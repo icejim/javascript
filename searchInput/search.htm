@@ -1,0 +1,22 @@
+<script>
+var divs = $('div[data-filter]');
+$('#search').on('keyup', function() {
+    /*if($('#accordion .ui-accordion-content').is(":hidden")){
+			$('#accordion .ui-accordion-content').show();
+		}*/
+    var val = $.trim(this.value);
+    divs.hide();
+    divs.filter(function() {
+        return $(this).data('filter').search(val) >= 0
+    }).show();
+});
+</script>
+
+
+<label for="search">Search Input:</label>
+    <input type="search" name="filter" id="search" value="" />
+    <div class="filter-div" data-filter="one">one</div>
+    <div class="filter-div" data-filter="two">two</div>
+    <div class="filter-div" data-filter="three">three</div>
+    <div class="filter-div" data-filter="four">four</div>
+    <div class="filter-div" data-filter="five">five</div>
