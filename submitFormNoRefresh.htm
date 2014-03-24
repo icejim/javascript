@@ -1,0 +1,52 @@
+<script>
+$(function() {
+	$('#email-invite').submit(
+		function(e) {
+			var $this = $(this);
+			var $loading = $this.find('#pending-invite-loading-area');
+			//show the loading area
+			var sendButton = $this.find('input[type=submit]');
+			$loading.css({
+				position : 'absolute'
+			}).overlayNextSibling();
+			$('#email-error').hide();
+			$.post(e.currentTarget.action, $(this).serialize(), function(
+					data) {
+				var error = data.error;
+				var success = data.success;
+				$loading.hide();
+				if (success) {
+					var successMessage = $(
+							"<span class='notification'></span>").text(success);
+					sendButton.replaceWith(successMessage);
+					$('#invite-email').val('');
+					$('#email-error').hide();
+					successMessage.fadeIn(400).delay(1000).fadeOut(800)
+							.queue(function() {
+								$(this).replaceWith(sendButton);
+							});
+				} else {
+					$('#email-error').text(error);
+					$('#email-error').fadeIn();
+				}
+			},"json");
+			return false;
+		});
+});
+</script>
+
+<div>
+	<h6><s:text name="invitation.sendbyemail"/></h6>
+	<s:text name="invitation.toemailtoyourfriend"/>: 
+    <form accept-charset="utf-8" method="post" id="email-invite" action="emailinvite.action">
+		<div style="display:none;"><input type="hidden" value="POST" name="_method">
+		<input type="hidden" id="Token1014298391" value="092f06ac8e48d37bcc377207840f8e32b17c4555" name="data[_Token][key]"></div>                
+		<div class="input text"><input type="text" id="invite-email" name="rafemail"> <span>*</span></div>                
+		<div class="submit">
+			<div style="display:none; background:#fff;" id="pending-invite-loading-area" class="loading-area"><div class="loading-spinner"></div></div>
+			<input type="submit" value="<s:text name="invitation.send"/>" title="Please allow up to one hour for the email to arrive" class="login-button">
+		</div>
+	</form> 
+	<p></p>
+	<div id="email-error"></div>
+</div>
