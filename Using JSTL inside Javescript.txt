@@ -1,0 +1,31 @@
+Java != javascript.
+They are two very different things.
+
+Think of the JSP lifecycle.
+JSP is invoked. It runs Java/JSTL, produces an HTML page.
+Java stops running.
+HTML page arrives at your client. Javascript runs.
+The only way to run java/jstl again is to make a request: click a link, submit a form... and get a new response.
+
+I can't exactly figure out what you're doing there with your mix of javascript and JSTL.
+
+You can use JSTL to produce javascript code.
+For instance
+
+function myFunction(){
+  var stateArray = new Array();
+  <c:forEach var="state" items="${stateList}" varStatus="status">
+    stateArray[${status.index}] = "${state}";
+  </c:forEach>
+}
+
+When this run it executes the JSTL and would produce something like
+
+function myFunction(){
+  var stateArray = new Array();  
+  stateArray[0] = "North Carolina";
+  stateArray[1] = "SouthCarolina";
+  stateArray[2] = "North Dakota";
+  stateArray[3] = "South Dakota";
+  ...
+}
